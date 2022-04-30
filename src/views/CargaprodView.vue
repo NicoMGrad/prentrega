@@ -7,6 +7,7 @@
           <th>Días</th>
           <th>Envío</th>
           <th>Preview</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -15,7 +16,35 @@
             <td>{{producto.precio  | formatPrecio}}</td>
             <td>{{producto.dias}}</td>
             <td>{{producto.envio | formatPrecio}}</td>
-            <td><img :src="require(`../assets/imgs/${producto.srcimg}`)" :alt="producto.producto" :title="producto.producto" class="item-img-small" /></td>
+            <td class="text-center">
+              <img :src="require(`../assets/imgs/${producto.srcimg}`)" :alt="producto.producto" :title="producto.producto" class="item-img-small" />
+            </td>
+            <td class="text-center">
+              <button 
+                class="btn-editar"
+              >
+                Editar
+                <v-icon>
+                  mdi-note-edit-outline
+                </v-icon>
+              </button>
+              <button 
+                class="btn-borrar"
+              >
+                Borrar
+                <v-icon>
+                  mdi-trash-can-outline
+                </v-icon>
+              </button>
+            </td>
+        </tr>
+        <tr>
+          <td colspan="6" class="text-right display-1 font-weight-light pa-5">
+            Agregar nuevo producto
+            <v-icon>
+              mdi-plus-circle-outline
+            </v-icon>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -43,7 +72,8 @@ export default {
 }
 
 table {
-  width: 50%;
+  width: 100%;
+  max-width: 700px;
   background: #fff;
   margin: 1em auto;
   border: 1px solid rgba(34,36,38,.15);
@@ -68,6 +98,15 @@ thead tr:first-child>th:first-child {
     border-radius: 0.28571429rem 0 0 0;
 }
 
+thead > tr th:last-child {
+  width: 240px;
+}
+
+tbody tr:last-child td,
+tbody tr:last-child td i {
+  color: grey;
+}
+
 tr td:first-child, .ui.celled.table tr th:first-child {
     border-left: none;
 }
@@ -86,14 +125,6 @@ td{
     border-top: 1px solid rgba(34,36,38,.1);
 }
 
-/*
-tr:nth-child(2n+1){
-  background: #f6f6f6;
-}
-
-tr:nth-child(2n){
-  background: #ffffff;
-}*/
 tr:hover{
   cursor: pointer;
   background: #f6f6f6;
@@ -102,5 +133,31 @@ tr:hover{
 
 .item-img-small {
   height: 25px;
+}
+
+.btn-editar,
+.btn-borrar {
+  font-size:.9rem;
+  padding:.5rem .7rem;
+  margin:.2rem;
+  border-radius:.3rem;
+  background: #f4f4f4;
+}
+
+.btn-editar:hover,
+.btn-borrar:hover {
+  filter: brightness(.9);
+  transition: var(--animation-hover);
+  cursor: pointer;
+}
+
+.btn-editar,
+.btn-editar > i {
+  color: var(--verde-oscuro);
+}
+
+.btn-borrar,
+.btn-borrar > i {
+  color: var(--rojo);
 }
 </style>

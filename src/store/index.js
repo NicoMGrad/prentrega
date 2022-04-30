@@ -8,6 +8,7 @@ import * as mutations from './mutations';
 import * as getters from './getters';
 import * as actions from './actions';
 import usuarios from '/src/modules/usuarios.js'
+import productos from '/src/modules/productos.js'
 
 export default new Vuex.Store({
   state:{
@@ -28,6 +29,7 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules: {
-    usuarios
+    usuarios,
+    productos
   }
 })

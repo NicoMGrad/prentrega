@@ -4,7 +4,7 @@
             v-model="name"
             type="name"
             :error-messages="nameErrors"
-            :counter="50"
+            :counter="10"
             label="Nombre y Apellido"
             prepend-icon="mdi-account-outline"
             required
@@ -23,33 +23,6 @@
           @blur="$v.email.$touch()"
         ></v-text-field>
 
-
-        <v-text-field
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            :error-messages="passwordErrors"
-            label="Inventar contraseña"
-            required
-            @input="$v.password.$touch()"
-            @blur="$v.password.$touch()"
-            prepend-icon="mdi-lock-outline"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
-        ></v-text-field>
-
-        <v-text-field
-            v-model="confirmPassword"
-            :type="showPassword ? 'text' : 'password'"
-            :error-messages="confirmPasswordErrors"
-            label="Repetir contraseña"
-            required
-            @input="$v.confirmPassword.$touch()"
-            @blur="$v.confirmPassword.$touch()"
-            prepend-icon="mdi-lock-outline"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
-        ></v-text-field>
-
         <v-select
           v-model="select"
           :items="genero"
@@ -60,14 +33,6 @@
           @change="$v.select.$touch()"
           @blur="$v.select.$touch()"
         ></v-select>
-        <v-checkbox
-          v-model="checkbox"
-          :error-messages="checkboxErrors"
-          label="Acepto los términos y condiciones"
-          required
-          @change="$v.checkbox.$touch()"
-          @blur="$v.checkbox.$touch()"
-        ></v-checkbox>
 
         <div class="text-right">
             <v-btn class="mr-4" outlined color="indigo" large @click="clear">
@@ -106,31 +71,21 @@
 
     data: () => ({
       name: '',
-      email: '',
       select: null,
-      genero: [
-        'Hombre',
-        'Mujer',
-        'X'
+      certificacion: [
+        'ISO 2022',
+        'AGRA 3001',
+        'GREENARROW',
+        'SUNN-2020'
       ],
-      password: '',
-      confirmPassword: '',
-      showPassword: false,
-      checkbox: false,
       dialog: false,
     }),
 
     computed: {
-      checkboxErrors () {
-        const errors = []
-        if (!this.$v.checkbox.$dirty) return errors
-        !this.$v.checkbox.checked && errors.push('Debés aceptar los TyC para continuar.')
-        return errors
-      },
       selectErrors () {
         const errors = []
         if (!this.$v.select.$dirty) return errors
-        !this.$v.select.required && errors.push('Seleccioná tu género por favor.')
+        !this.$v.select.required && errors.push('Seleccioná la certificación por favor.')
         return errors
       },
       nameErrors () {
@@ -139,28 +94,6 @@
         !this.$v.name.maxLength && errors.push('El nombre debe tener menos de 50 caracteres.')
         !this.$v.name.required && errors.push('¡No te olvides de tu nombre!')
         return errors
-      },
-      emailErrors () {
-        const errors = []
-        if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Chequeá que sea un formato válido')
-        !this.$v.email.required && errors.push('¡No te olvides de tu email!')
-        return errors
-      },
-      passwordErrors() {
-        const errors = [];
-        if (!this.$v.password.$dirty) return errors;
-        !this.$v.password.minLength &&
-          errors.push("La contraseña tiene que tener mínimo 8 caracteres");
-        !this.$v.password.required && errors.push("¡No te olvides de la contraseña!");
-        return errors;
-      },
-      confirmPasswordErrors() {
-        const errors = [];
-        if (!this.$v.confirmPassword.$dirty) return errors;
-        !this.$v.confirmPassword.sameAsPassword &&
-          errors.push("Las contraseñas deben coincidir");
-        return errors;
       },
      ...mapGetters('usuarios',
       ['listaUsuarios'])
@@ -184,8 +117,8 @@
                 let genero = document.querySelector('div[class="v-select__selection v-select__selection--comma"]').innerText;
 
                 axios.post(url,{
-                  email: this.email.trim(),
-                  nombre: this.name.trim(),
+                  email: this.email,
+                  nombre: this.name,
                   password: this.password,
                   genero: genero,
                   rol: 'user'
